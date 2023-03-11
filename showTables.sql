@@ -1,0 +1,10 @@
+DESC departments;
+DESC classes;
+DESC subjects;
+DESC prerequisite;
+DESC instructors;
+DESC qualifications;
+DESC teach;
+DESC students;
+DESC subject_join;
+DESC sections;

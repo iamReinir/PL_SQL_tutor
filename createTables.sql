@@ -1,13 +1,3 @@
-DROP TABLE departments;
-DROP TABLE classes;
-DROP TABLE subjects;
-DROP TABLE prerequisite;
-DROP TABLE instructors;
-DROP TABLE qualifications;
-DROP TABLE teach;
-DROP TABLE students;
-DROP TABLE subject_join;
-DROP TABLE sections;
 CREATE TABLE departments(
     code varchar2(20) PRIMARY KEY,
     dept_name varchar2(20) NOT NULL,
@@ -79,7 +69,7 @@ CREATE TABLE qualifications(
     instructor varchar2(20),
     CONSTRAINT qual_of_instructor
         FOREIGN KEY (instructor)
-        REFERENCES instructors(code)
+        REFERENCES instructors(id)
         ON DELETE CASCADE
 );
 
@@ -91,7 +81,7 @@ CREATE TABLE teach(
         FOREIGN KEY (instructor)
         REFERENCES instructors(id)
         ON DELETE CASCADE,
-    CONSTRAINT (subj_supervised)
+    CONSTRAINT subj_supervised
         FOREIGN KEY (subj)
         REFERENCES subjects(code)
         ON DELETE CASCADE
