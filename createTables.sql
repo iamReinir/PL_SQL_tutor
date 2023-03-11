@@ -1,3 +1,13 @@
+DROP TABLE departments;
+DROP TABLE classes;
+DROP TABLE subjects;
+DROP TABLE prerequisite;
+DROP TABLE instructors;
+DROP TABLE qualifications;
+DROP TABLE teach;
+DROP TABLE students;
+DROP TABLE subject_join;
+DROP TABLE sections;
 CREATE TABLE departments(
     code varchar2(20) PRIMARY KEY,
     dept_name varchar2(20) NOT NULL,
@@ -33,7 +43,7 @@ CREATE TABLE prerequisite(
         REFERENCES subjects(subject_code),
     CONSTRAINT req
         FOREIGN KEY (require)
-        REFERENCES subjects(subject_code),
+        REFERENCES subjects(code),
     CONSTRAINT bootstrap
         CHECK (subj != require)
 );
@@ -45,7 +55,14 @@ CREATE TABLE instructors(
     gender varchar2(20),
     supervise varchar2(20),
     supervise_since DATE,
-    department varchar2(20) NOT NULL
+    department varchar2(20) NOT NULL,
+    CONSTRAINT supervising
+        FOREIGN KEY (supervise)
+        REFERENCES classes(code),
+    CONSTRAINT instructor_of_dept
+        FOREIGN KEY (department)
+        REFERENCES departments(code)
+
 );
 
 CREATE TABLE qualifications(
@@ -59,28 +76,17 @@ CREATE TABLE qualifications(
         REFERENCES instructors(code)
 );
 
-ALTER TABLE instructors
-    ADD CONSTRAINT instructor_of_dept
-        FOREIGN KEY (department)
-        REFERENCES departments(code);
-ALTER TABLE instructors
-    ADD CONSTRAINT supervising
-        FOREIGN KEY (supervise)
-        REFERENCES classes(code);
-
 CREATE TABLE teach(
     id INT PRIMARY KEY,
     instructor varchar2(20) NOT NULL,
     subj varchar2(20) NOT NULL,
-);
-ALTER TABLE teach
-    ADD CONSTRAINT instructor_teach
+    CONSTRAINT instructor_teach
         FOREIGN KEY (instructor)
-        REFERENCES instructors(id);
-ALTER TABLE teach
-    ADD CONSTRAINT (subj_supervised)
+        REFERENCES instructors(id),
+    CONSTRAINT (subj_supervised)
         FOREIGN KEY (subj)
-        REFERENCES subjects(code);
+        REFERENCES subjects(code)
+);
 CREATE TABLE students(
     student_number varchar2(20) PRIMARY KEY,
     student_name varchar2(20) NOT NULL,
