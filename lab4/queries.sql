@@ -40,11 +40,9 @@ WHERE proj_name = 'ProjectB';
 */
 
 SELECT
-    employee.code, employees.fullname
+    employees.code, employees.fullname
 FROM
-    (
-    ((SELECT code FROM employees WHERE fullname='Mai Duy An') AS e_supervisor
+    (((SELECT code FROM employees WHERE fullname='Mai Duy An') e_supervisor
     JOIN supervise
     ON supervise.supervisor = e_supervisor.code)
-    JOIN employees ON supervise.supervised = employees.code
-    )
+    JOIN employees ON supervise.supervised = employees.code)
