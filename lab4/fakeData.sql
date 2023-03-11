@@ -5,16 +5,16 @@ INSERT INTO departments (code, dept_name) VALUES ('004','marketing');
 INSERT INTO departments (code, dept_name) VALUES ('005','production');
 
 INSERT INTO employees (code, fullname, gender, dateOfBirth, department, managerOf)
-    VALUES ('001','mr jame','male','08-06-1996','001',NULL);
+    VALUES ('001','mr jame','male','08-jan-1996','001',NULL);
 INSERT INTO employees (code, fullname, gender, dateOfBirth, department, managerOf)
-    VALUES ('002','jmmy','male','08-06-1996','002',NULL);
+    VALUES ('002','jmmy','male','08-jan-1996','002',NULL);
 INSERT INTO employees (code, fullname, gender, dateOfBirth, department, managerOf)
-    VALUES ('003','mr jame','male','08-06-1996','003',NULL);
+    VALUES ('003','manager-san','female','08-jan-1996','003','001');
 INSERT INTO employees (code, fullname, gender, dateOfBirth, department, managerOf)
-    VALUES ('004','mr jame','male','08-06-1996','004',NULL);
+    VALUES ('004','Sanny','female','08-jan-1996','004',NULL);
 INSERT INTO employees (code, fullname, gender, dateOfBirth, department, managerOf)
-    VALUES ('005','mr jame','male','08-06-1996','005',NULL);
+    VALUES ('005','John','male','08-jan-1996','005',NULL);
 INSERT INTO employees (code, fullname, gender, dateOfBirth, department, managerOf)
-    VALUES ('006','mr jame','male','08-06-1996','006',NULL);
+    VALUES ('006','Kein','male','08-jan-1996','002',NULL);
 INSERT INTO employees (code, fullname, gender, dateOfBirth, department, managerOf)
-    VALUES ('007','mr jame','male','08-06-1996','001',NULL);
+    VALUES ('007','Aris','female','08-jan-1996','001',NULL);
