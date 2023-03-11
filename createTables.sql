@@ -21,6 +21,7 @@ CREATE TABLE classes(
     CONSTRAINT class_of_dept
         FOREIGN KEY (department)
         REFERENCES departments(code)
+        ON DELETE CASCADE
 );
 CREATE TABLE subjects(
     code varchar2(20) PRIMARY KEY,
@@ -32,6 +33,7 @@ CREATE TABLE subjects(
     CONSTRAINT subject_of_department
         FOREIGN KEY (department)
         REFERENCES departments(code)
+        ON DELETE CASCADE
 );
 
 CREATE TABLE prerequisite(
@@ -40,10 +42,12 @@ CREATE TABLE prerequisite(
     require varchar2(20),
     CONSTRAINT base_subj
         FOREIGN KEY (subj)
-        REFERENCES subjects(subject_code),
+        REFERENCES subjects(code)
+        ON DELETE CASCADE,
     CONSTRAINT req
         FOREIGN KEY (require)
-        REFERENCES subjects(code),
+        REFERENCES subjects(code)
+        ON DELETE SET NULL,
     CONSTRAINT bootstrap
         CHECK (subj != require)
 );
@@ -58,10 +62,12 @@ CREATE TABLE instructors(
     department varchar2(20) NOT NULL,
     CONSTRAINT supervising
         FOREIGN KEY (supervise)
-        REFERENCES classes(code),
+        REFERENCES classes(code)
+        ON DELETE SET NULL,
     CONSTRAINT instructor_of_dept
         FOREIGN KEY (department)
         REFERENCES departments(code)
+        ON DELETE CASCADE
 
 );
 
@@ -74,6 +80,7 @@ CREATE TABLE qualifications(
     CONSTRAINT qual_of_instructor
         FOREIGN KEY (instructor)
         REFERENCES instructors(code)
+        ON DELETE CASCADE
 );
 
 CREATE TABLE teach(
@@ -82,10 +89,12 @@ CREATE TABLE teach(
     subj varchar2(20) NOT NULL,
     CONSTRAINT instructor_teach
         FOREIGN KEY (instructor)
-        REFERENCES instructors(id),
+        REFERENCES instructors(id)
+        ON DELETE CASCADE,
     CONSTRAINT (subj_supervised)
         FOREIGN KEY (subj)
         REFERENCES subjects(code)
+        ON DELETE CASCADE
 );
 CREATE TABLE students(
     student_number varchar2(20) PRIMARY KEY,
@@ -97,6 +106,7 @@ CREATE TABLE students(
     CONSTRAINT student_of_class
         FOREIGN KEY (class)
         REFERENCES classes(code)
+        ON DELETE CASCADE
 );
 
 CREATE TABLE subject_join(
@@ -107,10 +117,12 @@ CREATE TABLE subject_join(
     theory_grade number,
     CONSTRAINT subj
         FOREIGN KEY (subject_code)
-        REFERENCES subjects(code),
+        REFERENCES subjects(code)
+        ON DELETE CASCADE,
     CONSTRAINT stud
         FOREIGN KEY (student_number)
         REFERENCES students(student_number)
+        ON DELETE CASCADE
 );
 
 CREATE TABLE sections(
@@ -123,11 +135,14 @@ CREATE TABLE sections(
     PRIMARY KEY (class, sect_number, sect_year, sem_no),
     CONSTRAINT section_of_class
         FOREIGN KEY (class)
-        REFERENCES classes(code),
+        REFERENCES classes(code)
+        ON DELETE CASCADE,
     CONSTRAINT subj_of_section
         FOREIGN KEY (subj)
-        REFERENCES subjects(code),
+        REFERENCES subjects(code)
+        ON DELETE CASCADE,
     CONSTRAINT instructor_of_section
         FOREIGN KEY (instructor)
         REFERENCES instructors(id)
+        ON DELETE CASCADE
 );
