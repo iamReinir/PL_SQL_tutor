@@ -1,0 +1,10 @@
+DROP TABLE sections;
+DROP TABLE subject_join;
+DROP TABLE students;
+DROP TABLE teach;
+DROP TABLE qualifications;
+DROP TABLE instructors;
+DROP TABLE prerequisite;
+DROP TABLE subjects;
+DROP TABLE classes;
+DROP TABLE departments;
