@@ -69,7 +69,7 @@ CREATE TABLE qualifications(
     id INT PRIMARY KEY,
     specialize_training varchar2(500),
     training_institue varchar2(20) NOT NULL,
-    graduation_year YEAR,
+    graduation_year NUMBER(4),
     instructor varchar2(20),
     CONSTRAINT qual_of_instructor
         FOREIGN KEY (instructor)
@@ -116,7 +116,7 @@ CREATE TABLE subject_join(
 CREATE TABLE sections(
     class varchar2(20),
     sect_number INT,
-    sect_year YEAR,
+    sect_year NUMBER(4),
     sem_no INT,
     instructor varchar2(20) NOT NULL,
     subj varchar2(20) NOT NULL,
