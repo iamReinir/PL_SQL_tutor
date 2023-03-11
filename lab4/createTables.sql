@@ -48,7 +48,7 @@ CREATE TABLE projectJoin(
     employee varchar2(20),
     project varchar2(20),
     total_hour INT DEFAULT 0,
-    stillInProject NUMBER(1) 0/1 DEFAULT 0,
+    stillInProject NUMBER(1) DEFAULT 0,
     CONSTRAINT employee_fk
         FOREIGN KEY (employee)
         REFERENCES employees(code),
