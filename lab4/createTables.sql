@@ -1,12 +1,12 @@
 
 CREATE TABLE departments(
     code varchar2(20) PRIMARY KEY,
-    dept_name varchar2(20) NOT NULL
+    dept_name varchar2(50) NOT NULL
 );
 
 CREATE TABLE employees(
     code varchar2(20) PRIMARY KEY,
-    fullname varchar2(20) NOT NULL,
+    fullname varchar2(50) NOT NULL,
     gender varchar2(20),
     dateOfBirth DATE NOT NULL,
     department varchar2(20) NOT NULL,
