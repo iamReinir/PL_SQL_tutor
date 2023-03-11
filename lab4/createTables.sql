@@ -12,10 +12,10 @@ CREATE TABLE employees(
     department varchar2(20) NOT NULL,
     managerOf varchar2(20),
     CONSTRAINT employee_of_department
-        FOREIGN KEY department
+        FOREIGN KEY (department)
         REFERENCES departments(code),
     CONSTRAINT manager_of_department
-        FOREIGN KEY managerOf
+        FOREIGN KEY (managerOf)
         REFERENCES departments(code)
 );
 
@@ -25,10 +25,10 @@ CREATE TABLE supervise(
     relation varchar2(50),
     PRIMARY KEY (supervisor, supervised),
     CONSTRAINT supervisor_fk
-        FOREIGN KEY supervisor
+        FOREIGN KEY (supervisor)
         REFERENCES employees(code),
     CONSTRAINT supervised_fk
-        FOREIGN KEY supervised
+        FOREIGN KEY (supervised)
         REFERENCES employees(code),
     CONSTRAINT bootstrap
         CHECK (supervisor != supervised)
@@ -40,7 +40,7 @@ CREATE TABLE projects(
     proj_location varchar2(50),
     managingDept varchar2(20),
     CONSTRAINT managingDept_fk
-        FOREIGN KEY managingDept
+        FOREIGN KEY (managingDept)
         REFERENCES departments(code)
 );
 
@@ -50,10 +50,10 @@ CREATE TABLE projectJoin(
     total_hour INT DEFAULT 0,
     stillInProject NUMBER(1) 0/1 DEFAULT 0,
     CONSTRAINT employee_fk
-        FOREIGN KEY employee
+        FOREIGN KEY (employee)
         REFERENCES employees(code),
     CONSTRAINT project_fk
-        FOREIGN KEY project
+        FOREIGN KEY (project)
         REFERENCES projects(code),
     CONSTRAINT positiveHour
         CHECK (total_hour >= 0)
