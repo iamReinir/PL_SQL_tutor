@@ -18,3 +18,5 @@ INSERT INTO employees (code, fullname, gender, dateOfBirth, department, managerO
     VALUES ('006','Kein','male','08-jan-1996','002',NULL);
 INSERT INTO employees (code, fullname, gender, dateOfBirth, department, managerOf)
     VALUES ('007','Aris','female','08-jan-1996','001',NULL);
+INSERT INTO employees (code, fullname, gender, dateOfBirth, department, managerOf)
+    VALUES ('008','Alicia','female','08-jan-1996','003','003');
