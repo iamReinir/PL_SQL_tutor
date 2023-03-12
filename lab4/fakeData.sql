@@ -55,6 +55,9 @@ INSERT INTO dependants (id,depend_name,gender,dateOfBirth,relationship,employee)
 INSERT INTO dependants (id,depend_name,gender,dateOfBirth,relationship,employee) VALUES
 ('DP004','Jish20','female','2003-06-06','Offspring','E001');
 
+INSERT INTO dependants (id,depend_name,gender,dateOfBirth,relationship,employee) VALUES
+('DP005','Jish20','female','1999-06-06','Wife','E001');
+
 INSERT INTO projects(code, proj_name, proj_location, managingDept)
 VALUES ('P001', 'Solar Power Plant', 'Arizona', 'D001');
 INSERT INTO projects(code, proj_name, proj_location, managingDept)

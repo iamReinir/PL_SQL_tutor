@@ -233,33 +233,38 @@ GROUP BY relationship;
 /*
 Q16.Cho biết số lượng người phụ thuộc theo mỗi phòng ban.
 Thông tin yêu cầu: mã phòng ban, tên phòng ban, số lượng người phụ thuộc
+
+CHECKED
 */
 
-SELECT
-    departments.code, dept_name AS department,
-    COUNT(dependants.code) AS dependants_count
+SELECT d.code, dept_name, dependants_count 
+FROM
+(SELECT
+    departments.code as code,
+    COUNT(dependants.id) AS dependants_count
 FROM
     (dependants JOIN employees
         ON dependants.employee = employees.code)
     JOIN departments
     ON department=departments.code
-GROUP BY department.code;
+GROUP BY departments.code) d JOIN departments ON departments.code=d.code;
 
 /*
 Q17.Cho biết phòng ban nào có số lượng người phụ thuộc là ít nhất.
 Thông tin yêu cầu: mã phòng ban, tên phòng ban, số lượng người phụ thuộc
+CHECKED
 */
-SELECT code, department, dependants_count
+SELECT d.code, dept_name, dependants_count 
 FROM
-    (SELECT
-        departments.code, dept_name AS department,
-        COUNT(dependants.code) AS dependants_count
-    FROM
-        (dependants JOIN employees
-            ON dependants.employee = employees.code)
-        JOIN departments
-        ON department=departments.code
-    GROUP BY department.code)
+(SELECT
+    departments.code as code,
+    COUNT(dependants.id) AS dependants_count
+FROM
+    (dependants JOIN employees
+        ON dependants.employee = employees.code)
+    RIGHT JOIN departments
+    ON department=departments.code
+GROUP BY departments.code) d JOIN departments ON departments.code=d.code
 ORDER BY dependants_count ASC
 FETCH FIRST 1 ROW ONLY;
 
@@ -268,30 +273,32 @@ FETCH FIRST 1 ROW ONLY;
 /*
 Q18.Cho biết phòng ban nào có số lượng người phụ thuộc là nhiều nhất.
 Thông tin yêu cầu: mã phòng ban, tên phòng ban, số lượng người phụ thuộc
+CHECKED
 */
 
-SELECT code, department, dependants_count
+SELECT d.code, dept_name, dependants_count 
 FROM
-    (SELECT
-        departments.code, dept_name AS department,
-        COUNT(dependants.code) AS dependants_count
-    FROM
-        (dependants JOIN employees
-            ON dependants.employee = employees.code)
-        JOIN departments
-        ON department=departments.code
-    GROUP BY department.code)
+(SELECT
+    departments.code as code,
+    COUNT(dependants.id) AS dependants_count
+FROM
+    (dependants JOIN employees
+        ON dependants.employee = employees.code)
+    RIGHT JOIN departments
+    ON department=departments.code
+GROUP BY departments.code) d JOIN departments ON departments.code=d.code
 ORDER BY dependants_count DESC
 FETCH FIRST 1 ROW ONLY;
+
 /*
 Q19. Cho biết tổng số giờ tham gia dự án của mỗi nhân viên.
 Thông tin yêu cầu: mã nhân viên, tên nhân viên, tên phòng ban của nhân viên
 */
 
-SELECT SUM(total_hour) as total_hour, employees.code, employees.fullname, department.dept_name
+SELECT SUM(total_hour) as total_hour, employees.code, employees.fullname, departments.dept_name
 FROM
     ((projectJoin JOIN employees ON projectJoin.employee=employees.code)
-    JOIN departments ON employees.department=department.code)
+    JOIN departments ON employees.department=departments.code)
 GROUP BY employees.code;
 
 /*
