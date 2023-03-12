@@ -235,45 +235,54 @@ Q16.Cho biết số lượng người phụ thuộc theo mỗi phòng ban.
 Thông tin yêu cầu: mã phòng ban, tên phòng ban, số lượng người phụ thuộc
 */
 
-SELECT e_supervised.department, departments.dept_name, COUNT(e_supervised.department) AS total
+SELECT
+    departments.code, dept_name AS department,
+    COUNT(dependants.code) AS dependants_count
 FROM
-    ((
-    supervise JOIN employee AS e_supervised
-        ON supervise.supervised=e_supervised.code)
+    (dependants JOIN employees
+        ON dependants.employee = employees.code)
     JOIN departments
-        ON e_supervised.department=departments.code)
-GROUP BY (e_supervised.department);
+    ON department=departments.code
+GROUP BY department.code;
 
 /*
 Q17.Cho biết phòng ban nào có số lượng người phụ thuộc là ít nhất.
 Thông tin yêu cầu: mã phòng ban, tên phòng ban, số lượng người phụ thuộc
 */
-
-SELECT e_supervised.department, departments.dept_name, COUNT(e_supervised.department) AS total
+SELECT code, department, dependants_count
 FROM
-    ((supervise JOIN employee AS e_supervised
-        ON supervise.supervised=e_supervised.code)
-    JOIN departments
-        ON e_supervised.department=departments.code)
-GROUP BY (e_supervised.department)
-ORDER BY total ASC
+    (SELECT
+        departments.code, dept_name AS department,
+        COUNT(dependants.code) AS dependants_count
+    FROM
+        (dependants JOIN employees
+            ON dependants.employee = employees.code)
+        JOIN departments
+        ON department=departments.code
+    GROUP BY department.code)
+ORDER BY dependants_count ASC
 FETCH FIRST 1 ROW ONLY;
+
+
 
 /*
 Q18.Cho biết phòng ban nào có số lượng người phụ thuộc là nhiều nhất.
 Thông tin yêu cầu: mã phòng ban, tên phòng ban, số lượng người phụ thuộc
 */
 
-SELECT e_supervised.department, departments.dept_name, COUNT(e_supervised.department) AS total
+SELECT code, department, dependants_count
 FROM
-    ((supervise JOIN employee AS e_supervised
-        ON supervise.supervised=e_supervised.code)
-    JOIN departments
-        ON e_supervised.department=departments.code)
-GROUP BY (e_supervised.department)
-ORDER BY total DESC
+    (SELECT
+        departments.code, dept_name AS department,
+        COUNT(dependants.code) AS dependants_count
+    FROM
+        (dependants JOIN employees
+            ON dependants.employee = employees.code)
+        JOIN departments
+        ON department=departments.code
+    GROUP BY department.code)
+ORDER BY dependants_count DESC
 FETCH FIRST 1 ROW ONLY;
-
 /*
 Q19. Cho biết tổng số giờ tham gia dự án của mỗi nhân viên.
 Thông tin yêu cầu: mã nhân viên, tên nhân viên, tên phòng ban của nhân viên
