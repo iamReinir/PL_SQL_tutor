@@ -43,8 +43,8 @@ VALUES ('E008', 'E006');
 INSERT INTO supervise (supervisor, supervised)
 VALUES ('E002', 'E006');
 
-INSERT INTO dependants (id,depend_name,gender,dateOfBirth,relationship) VALUES
-('D001','Josh10','male','2013-06-06','Offspring');
+INSERT INTO dependants (id,depend_name,gender,dateOfBirth,relationship,employee) VALUES
+('D001','Josh10','male','2013-06-06','Offspring','E001');
 
 INSERT INTO projects(code, proj_name, proj_location, managingDept)
 VALUES ('P001', 'Solar Power Plant', 'Arizona', 'D001');

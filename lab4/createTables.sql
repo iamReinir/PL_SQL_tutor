@@ -39,7 +39,7 @@ CREATE TABLE supervise(
 
 CREATE TABLE dependants(
     id varchar2(20) PRIMARY KEY,
-    employee varchar2(20),
+    employee varchar2(20) NOT NULL,
     depend_name varchar2(50) NOT NULL,
     gender varchar2(20),
     dateOfBirth DATE NOT NULL,
