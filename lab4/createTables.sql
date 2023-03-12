@@ -13,25 +13,41 @@ CREATE TABLE employees(
     managerOf varchar2(20),
     CONSTRAINT employee_of_department
         FOREIGN KEY (department)
-        REFERENCES departments(code),
+        REFERENCES departments(code)
+        ON DELETE CASCADE,
     CONSTRAINT manager_of_department
         FOREIGN KEY (managerOf)
         REFERENCES departments(code)
+        ON DELETE SET NULL
 );
 
 CREATE TABLE supervise(
     supervisor varchar2(20),
     supervised varchar2(20),
-    relation varchar2(50),
     PRIMARY KEY (supervisor, supervised),
     CONSTRAINT supervisor_fk
         FOREIGN KEY (supervisor)
-        REFERENCES employees(code),
+        REFERENCES employees(code)
+        ON DELETE SET NULL,
     CONSTRAINT supervised_fk
         FOREIGN KEY (supervised)
-        REFERENCES employees(code),
+        REFERENCES employees(code)
+        ON DELETE CASCADE,
     CONSTRAINT bootstrap
         CHECK (supervisor != supervised)
+);
+
+CREATE TABLE dependants(
+    id varchar2(20) PRIMARY KEY,
+    employee varchar2(20),
+    depend_name varchar2(50) NOT NULL,
+    gender varchar2(20),
+    dateOfBirth DATE NOT NULL,
+    relationship varchar2(50),
+    CONSTRAINT employee_fk
+        FOREIGN KEY employee
+        REFERENCES employees.code
+        ON DELETE CASCADE
 );
 
 CREATE TABLE projects(
@@ -42,6 +58,7 @@ CREATE TABLE projects(
     CONSTRAINT managingDept_fk
         FOREIGN KEY (managingDept)
         REFERENCES departments(code)
+        ON DELETE SET NULL
 );
 
 CREATE TABLE projectJoin(
@@ -51,10 +68,12 @@ CREATE TABLE projectJoin(
     stillInProject NUMBER(1) DEFAULT 0,
     CONSTRAINT employee_fk
         FOREIGN KEY (employee)
-        REFERENCES employees(code),
+        REFERENCES employees(code)
+        ON DELETE CASCADE,
     CONSTRAINT project_fk
         FOREIGN KEY (project)
-        REFERENCES projects(code),
+        REFERENCES projects(code)
+        ON DELETE CASCADE,
     CONSTRAINT positiveHour
         CHECK (total_hour >= 0)
 );
