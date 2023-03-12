@@ -30,18 +30,21 @@ employees (code, fullname, gender, dateOfBirth, department, managerOf)
 VALUES ('E008','Alicia','female','1996-01-08','D003','D003');
 
 
-INSERT INTO supervise (supervisor, supervised, relation)
-VALUES ('E001', 'E002', 'Direct manager');
-INSERT INTO supervise (supervisor, supervised, relation)
-VALUES ('E001', 'E003', 'Indirect manager');
-INSERT INTO supervise (supervisor, supervised, relation)
-VALUES ('E002', 'E004', 'Mentor');
-INSERT INTO supervise (supervisor, supervised, relation)
-VALUES ('E003', 'E005', 'Team Leader');
-INSERT INTO supervise (supervisor, supervised, relation)
-VALUES ('E008', 'E006', 'Junior Analyst');
-INSERT INTO supervise (supervisor, supervised, relation)
-VALUES ('E002', 'E006', 'Senior Analyst');
+INSERT INTO supervise (supervisor, supervised)
+VALUES ('E001', 'E002');
+INSERT INTO supervise (supervisor, supervised,)
+VALUES ('E001', 'E003');
+INSERT INTO supervise (supervisor, supervised)
+VALUES ('E002', 'E004');
+INSERT INTO supervise (supervisor, supervised)
+VALUES ('E003', 'E005');
+INSERT INTO supervise (supervisor, supervised)
+VALUES ('E008', 'E006');
+INSERT INTO supervise (supervisor, supervised)
+VALUES ('E002', 'E006');
+
+INSERT INTO dependants (id,depend_name,gender,dateOfBirth,relationship) VALUES
+('D001','Josh10','male','2013-06-06','Offspring');
 
 INSERT INTO projects(code, proj_name, proj_location, managingDept)
 VALUES ('P001', 'Solar Power Plant', 'Arizona', 'D001');
