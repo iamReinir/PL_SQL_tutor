@@ -109,18 +109,20 @@ FROM
         employee,
         TRUNC((SYSDATE - dateOfBirth)/ 365.25) AS age
     FROM
-        dependants) JOIN employees ON employee = employees.code
+        dependants) dependants JOIN employees ON employee = employees.code
 WHERE age > 18;
 
 /*
 Q9.	Cho biết những người phụ thuộc là nam giới.
 Thông tin yêu cầu: tên, ngày tháng năm sinh của người phụ thuộc, tên nhân viên phụ thuộc vào
+CHECKED
+
 */
 
 SELECT
     depend_name,
     dependants.dateOfBirth,
-    fullname as employee_name,
+    fullname as employee_name
 FROM
     dependants JOIN employees ON employee = employees.code
 WHERE
@@ -130,6 +132,7 @@ WHERE
 /*
 Q10.	Cho biết những nơi làm việc của phòng ban có tên : Phòng Nghiên cứu và phát triển.
 Thông tin yêu cầu: mã phòng ban, tên phòng ban, tên nơi làm việc.
+CHECKED
 */
 
 SELECT
@@ -143,6 +146,7 @@ WHERE dept_name='research and development';
 /*
 Q11.	Cho biết các dự án làm việc tại Tp. HCM.
 Thông tin yêu cầu: mã dự án, tên dự án, tên phòng ban chịu trách nhiệm dự án.
+CHECKED
 */
 SELECT
     projects.code as project_code,
