@@ -2,6 +2,8 @@
 Q1. Ai là quản lý phòng ban có tên là "Phòng nghiên cứu và phát triên"
 Thông tin yêu cầu: mã số, họ tên nhân viên, mã số phòng ban, tên phòng ban
 "Nghiên cứu và phát triển" --> "research and development"
+
+CHECKED
 */
 SELECT
     employees.code as employee_code,
@@ -16,6 +18,8 @@ WHERE
 /*
 Q2.Phòng Nghiên cứu và phát triển hiện đang quản lý dự án nào.
 Thông tin yêu cầu: mã số dụ án, tên dự án, tên phòng ban quản lý
+
+CHECKED
 */
 
 SELECT
@@ -26,9 +30,12 @@ FROM
     (departments JOIN projects ON departments.code = managingDept)
 WHERE dept_name = 'research and development';
 
+
 /*
 Q3.Dự án có tên ProjectB hiện đang được quản lý bởi phòng ban nào.
 Thông tin yêu cầu: mã số dụ án, tên dự án, tên phòng ban quản lý
+
+CHECKED
 */
 SELECT
     projects.code as project_code,
@@ -41,6 +48,8 @@ WHERE proj_name = 'ProjectB';
 /*
 Q4.Những nhân viên nào đang bị giám sát bởi nhân viên có tên Mai Duy An.
 Thông tin yêu cầu: mã số nhân viên, họ tên nhân viên
+
+CHECKED
 */
 
 SELECT
@@ -54,11 +63,13 @@ FROM
 /*
 Q5. ai hiện đang giám sát những nhân viên có tên Mai Duy An.
 Thông tin yêu cầu: mã số nhân viên, họ tên nhân viên giám sát.
+
+CHECKED
 */
 SELECT
     employees.code, employees.fullname
 FROM
-    (((SELECT code FROM employees WHERE fullname='Mai Duy An') e_supervised
+    (((SELECT code FROM employees WHERE fullname='Kein') e_supervised
     JOIN supervise
     ON supervise.supervised = e_supervised.code)
     JOIN employees ON supervise.supervisor = employees.code);

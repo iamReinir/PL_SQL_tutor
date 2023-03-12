@@ -54,7 +54,7 @@ VALUES ('P004', 'Nuclear Power Plant', 'California', 'D004');
 INSERT INTO projects(code, proj_name, proj_location, managingDept)
 VALUES ('P005', 'Geothermal Power Plant', 'Hawaii', 'D005');
 INSERT INTO projects(code, proj_name, proj_location, managingDept)
-VALUES ('P006', 'Biomass Power Plant', 'Oregon', 'D006');
+VALUES ('P006', 'Biomass Power Plant', 'Oregon', 'D003');
 
 INSERT INTO projectJoin(employee, project, total_hour, stillInProject)
 VALUES ('E001', 'P001', 40, 1);
