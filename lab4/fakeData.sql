@@ -6,28 +6,28 @@ INSERT INTO departments (code, dept_name) VALUES ('D005','production');
 
 INSERT INTO
 employees (code, fullname, gender, dateOfBirth, department, managerOf)
-VALUES ('E001','mr jame','male','08-jan-1996','D001',NULL);
+VALUES ('E001','mr jame','male','1996-01-01','D001',NULL);
 INSERT INTO
 employees (code, fullname, gender, dateOfBirth, department, managerOf)
-VALUES ('E002','jmmy','male','08-jan-1996','D002',NULL);
+VALUES ('E002','jmmy','male','2006-01-08','D002',NULL);
 INSERT INTO
 employees (code, fullname, gender, dateOfBirth, department, managerOf)
-VALUES ('E003','manager-san','female','08-jan-1996','D003','D001');
+VALUES ('E003','manager-san','female','1996-01-08','D003','D001');
 INSERT INTO
 employees (code, fullname, gender, dateOfBirth, department, managerOf)
-VALUES ('E004','Sanny','female','08-jan-1996','D004',NULL);
+VALUES ('E004','Sanny','female','2006-01-08','D004',NULL);
 INSERT INTO
 employees (code, fullname, gender, dateOfBirth, department, managerOf)
-VALUES ('E005','John','male','08-jan-1996','D005',NULL);
+VALUES ('E005','John','male','1996-01-08','D005',NULL);
 INSERT INTO
 employees (code, fullname, gender, dateOfBirth, department, managerOf)
-VALUES ('E006','Kein','male','08-jan-1996','D002',NULL);
+VALUES ('E006','Kein','male','1996-01-08','D002',NULL);
 INSERT INTO
 employees (code, fullname, gender, dateOfBirth, department, managerOf)
-VALUES ('E007','Aris','female','08-jan-1996','D001',NULL);
+VALUES ('E007','Aris','female','1996-01-08','D001',NULL);
 INSERT INTO
 employees (code, fullname, gender, dateOfBirth, department, managerOf)
-VALUES ('E008','Alicia','female','08-jan-1996','D003','D003');
+VALUES ('E008','Alicia','female','1996-01-08','D003','D003');
 
 
 INSERT INTO supervise (supervisor, supervised, relation)

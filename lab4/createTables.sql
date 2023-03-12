@@ -44,9 +44,9 @@ CREATE TABLE dependants(
     gender varchar2(20),
     dateOfBirth DATE NOT NULL,
     relationship varchar2(50),
-    CONSTRAINT employee_fk
-        FOREIGN KEY employee
-        REFERENCES employees.code
+    CONSTRAINT dependant_of_employee
+        FOREIGN KEY (employee)
+        REFERENCES employees(code)
         ON DELETE CASCADE
 );
 

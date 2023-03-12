@@ -93,18 +93,21 @@ FROM projects WHERE proj_location='tp.HCM';
 /*
 Q8. Cho biết những người phụ thuộc trên 18 tuổi .
 Thông tin yêu cầu: tên, ngày tháng năm sinh của người phụ thuộc, tên nhân viên phụ thuộc vào.
+
+CHECKED
 */
 
 SELECT
     employee18.fullname, employee18.dateOfBirth, employees.fullname as supervisor_name
 FROM
-        ((SELECT
-            TRUNC((SYSDATE - TO_DATE(dateOfBirth, 'DD-Mon-YY'))/ 365.25) AS age,
-            dateOfBirth,
-            code,
-            fullname
-        FROM employees
-        WHERE age > 18) employee18 JOIN supervise ON employee18.code = supervise.supervised)
+        ((SELECT * FROM
+	   (SELECT
+            	TRUNC((SYSDATE - dateOfBirth)/ 365.25) AS age,
+            	dateOfBirth,
+            	code,
+		fullname
+            FROM employees) 
+	WHERE age > 18) employee18 JOIN supervise ON employee18.code = supervise.supervised)
     JOIN employees ON employees.code = supervise.supervisor;
 
 /*
@@ -112,12 +115,12 @@ Q9.	Cho biết những người phụ thuộc là nam giới.
 Thông tin yêu cầu: tên, ngày tháng năm sinh của người phụ thuộc, tên nhân viên phụ thuộc vào
 */
 
-SELECT male_emp.fullname, male_emp.dateOfBirth, employee.fullname as supervisor_name
+SELECT male_emp.fullname, male_emp.dateOfBirth, employees.fullname as supervisor_name
 FROM
         ((SELECT
             dateOfBirth,
             code,
-            fullname,
+            fullname
         FROM employees
         WHERE gender='male') male_emp JOIN supervise ON male_emp.code = supervise.supervised)
     JOIN employees ON employees.code = supervise.supervisor;
