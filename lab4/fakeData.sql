@@ -32,7 +32,7 @@ VALUES ('E008','Alicia','female','1996-01-08','D003','D003');
 
 INSERT INTO supervise (supervisor, supervised)
 VALUES ('E001', 'E002');
-INSERT INTO supervise (supervisor, supervised,)
+INSERT INTO supervise (supervisor, supervised)
 VALUES ('E001', 'E003');
 INSERT INTO supervise (supervisor, supervised)
 VALUES ('E002', 'E004');
