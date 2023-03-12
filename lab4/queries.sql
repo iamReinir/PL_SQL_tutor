@@ -97,33 +97,36 @@ Thông tin yêu cầu: tên, ngày tháng năm sinh của người phụ thuộc
 CHECKED
 */
 
+
 SELECT
-    employee18.fullname, employee18.dateOfBirth, employees.fullname as supervisor_name
+    depend_name as dependant_name,
+    dependants.dateOfBirth,
+    fullname as employee_name
 FROM
-        ((SELECT * FROM
-	   (SELECT
-            	TRUNC((SYSDATE - dateOfBirth)/ 365.25) AS age,
-            	dateOfBirth,
-            	code,
-		fullname
-            FROM employees) 
-	WHERE age > 18) employee18 JOIN supervise ON employee18.code = supervise.supervised)
-    JOIN employees ON employees.code = supervise.supervisor;
+    (SELECT
+        depend_name,
+        dateOfBirth,
+        employee,
+        TRUNC((SYSDATE - dateOfBirth)/ 365.25) AS age
+    FROM
+        dependants) JOIN employees ON employee = employees.code
+WHERE age > 18;
 
 /*
 Q9.	Cho biết những người phụ thuộc là nam giới.
 Thông tin yêu cầu: tên, ngày tháng năm sinh của người phụ thuộc, tên nhân viên phụ thuộc vào
 */
 
-SELECT male_emp.fullname, male_emp.dateOfBirth, employees.fullname as supervisor_name
+SELECT
+    depend_name,
+    dependants.dateOfBirth,
+    fullname as employee_name,
 FROM
-        ((SELECT
-            dateOfBirth,
-            code,
-            fullname
-        FROM employees
-        WHERE gender='male') male_emp JOIN supervise ON male_emp.code = supervise.supervised)
-    JOIN employees ON employees.code = supervise.supervisor;
+    dependants JOIN employees ON employee = employees.code
+WHERE
+    dependants.gender='male';
+
+
 /*
 Q10.	Cho biết những nơi làm việc của phòng ban có tên : Phòng Nghiên cứu và phát triển.
 Thông tin yêu cầu: mã phòng ban, tên phòng ban, tên nơi làm việc.
