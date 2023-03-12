@@ -168,6 +168,7 @@ Q12.	Cho biết những người phụ thuộc là nữ giới,
 của nhân viên thuộc phòng ban có tên: Phòng Nghiên cứu và phát triển .
 Thông tin yêu cầu: tên nhân viên, tên người phụ thuộc,
 mối liên hệ giữa người phụ thuộc với nhân viên.
+CHECKED
 */
 
 SELECT
@@ -185,19 +186,23 @@ Q13.Cho biết những người phụ thuộc trên 18 tuổi,
 của nhân viên thuộc phòng ban có tên: Phòng Nghiên cứu và phát triển.
 Thông tin yêu cầu: tên nhân viên, tên người phụ thuộc,
 mối liên hệ giữa người phụ thuộc với nhân viên.
+CHECKED
 */
-SELECT fullname, depend_name as dependant_name, relationship
+SELECT fullname AS employee, dependant_name, relationship
 FROM
     (SELECT
         depend_name as dependant_name,
         dependants.dateOfBirth,
         employees.code,
-        employees.department
+        employees.department,
+ 	relationship,
+	fullname
     FROM
         (SELECT
             depend_name,
             dateOfBirth,
             employee,
+	    relationship,
             TRUNC((SYSDATE - dateOfBirth)/ 365.25) AS age
         FROM
             dependants) dependants JOIN employees ON employee = employees.code
@@ -209,6 +214,7 @@ WHERE dept_name = 'research and development';
 /*
 Q14. Cho biết số lượng người phụ thuộc theo giới tính.
 Thông tin yêu cầu: giới tính, số lượng người phụ thuộc
+CHECKED
 */
 
 SELECT gender, COUNT(gender) AS gender_count
@@ -218,6 +224,7 @@ GROUP BY gender;
 /*
 Q15. Cho biết số lượng người phụ thuộc theo mối liên hệ với nhân viên.
 Thông tin yêu cầu: mối liên hệ, số lượng người phụ thuộc
+CHECKED
 */
 SELECT relationship, COUNT(relationship) AS total
 FROM dependants

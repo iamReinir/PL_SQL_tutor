@@ -44,7 +44,16 @@ INSERT INTO supervise (supervisor, supervised)
 VALUES ('E002', 'E006');
 
 INSERT INTO dependants (id,depend_name,gender,dateOfBirth,relationship,employee) VALUES
-('D001','Josh10','male','2013-06-06','Offspring','E001');
+('DP001','Josh10','male','2013-06-06','Offspring','E001');
+
+INSERT INTO dependants (id,depend_name,gender,dateOfBirth,relationship,employee) VALUES
+('DP002','Josh20','male','2003-06-06','Offspring','E002');
+
+INSERT INTO dependants (id,depend_name,gender,dateOfBirth,relationship,employee) VALUES
+('DP003','Jish10','female','2013-06-06','Offspring','E002');
+
+INSERT INTO dependants (id,depend_name,gender,dateOfBirth,relationship,employee) VALUES
+('DP004','Jish20','female','2003-06-06','Offspring','E001');
 
 INSERT INTO projects(code, proj_name, proj_location, managingDept)
 VALUES ('P001', 'Solar Power Plant', 'Arizona', 'D001');
