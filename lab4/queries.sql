@@ -295,17 +295,18 @@ FETCH FIRST 1 ROW ONLY;
 /*
 Q19. Cho biết tổng số giờ tham gia dự án của mỗi nhân viên.
 Thông tin yêu cầu: mã nhân viên, tên nhân viên, tên phòng ban của nhân viên
+CHECKED
 */
 
-SELECT code, fullname, dept_name, total_hour
+SELECT departments.code, fullname, dept_name, total_hour
 FROM
     (SELECT
-        SUN(total_hour) as total_hour,
+        SUM(total_hour) as total_hour,
         employee
     FROM projectJoin
     GROUP BY employee)
     JOIN employees ON employee = employees.code
-    JOIN department ON department = departments.code;
+    JOIN departments ON department = departments.code;
 /*
 Q20.	Cho biết tổng số giờ làm dự án của mỗi phòng ban.
 Thông tin yêu cầu: mã phòng ban, tên phòng ban, tổng số giờ
