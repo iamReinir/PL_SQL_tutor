@@ -1,6 +1,6 @@
 INSERT INTO departments (code, dept_name) VALUES ('D001','human resource');
 INSERT INTO departments (code, dept_name) VALUES ('D002','finance');
-INSERT INTO departments (code, dept_name) VALUES ('D003','reseach and development');
+INSERT INTO departments (code, dept_name) VALUES ('D003','research and development');
 INSERT INTO departments (code, dept_name) VALUES ('D004','marketing');
 INSERT INTO departments (code, dept_name) VALUES ('D005','production');
 

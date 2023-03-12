@@ -1,4 +1,11 @@
 /*
+*   Author : Nguyễn Xuân Trung - QE170172
+*   Search "Q_" để tìm câu query.
+*
+*/
+
+
+/*
 Q1. Ai là quản lý phòng ban có tên là "Phòng nghiên cứu và phát triên"
 Thông tin yêu cầu: mã số, họ tên nhân viên, mã số phòng ban, tên phòng ban
 "Nghiên cứu và phát triển" --> "research and development"
@@ -163,55 +170,58 @@ Thông tin yêu cầu: tên nhân viên, tên người phụ thuộc,
 mối liên hệ giữa người phụ thuộc với nhân viên.
 */
 
-SELECT female_emp.fullname, employee.fullname as supervisor_name, relation
+SELECT
+    depend_name AS dependant,
+    fullname as employee_name,
+    relationship
 FROM
-        ((SELECT employees.code, employees.name
-        FROM (employees JOIN departments ON employees.department=departments.code)
-        WHERE departments.dept_name='research and development'
-            AND gender='female') female_emp
-    JOIN supervise ON female_emp.code = supervise.supervised)
-    JOIN employees ON employees.code = supervise.supervisor;
+    dependants JOIN employees ON employee = employees.code
+WHERE
+    dependants.gender='female';
+
 
 /*
-Q13.	Cho biết những người phụ thuộc trên 18 tuổi,
+Q13.Cho biết những người phụ thuộc trên 18 tuổi,
 của nhân viên thuộc phòng ban có tên: Phòng Nghiên cứu và phát triển.
 Thông tin yêu cầu: tên nhân viên, tên người phụ thuộc,
 mối liên hệ giữa người phụ thuộc với nhân viên.
 */
-SELECT
-    employee18.fullname, employees.fullname as supervisor_name, relation
+SELECT fullname, depend_name as dependant_name, relationship
 FROM
-        ((SELECT
-            TRUNC((SYSDATE - TO_DATE(dateOfBirth, 'DD-Mon-YY'))/ 365.25) AS age,
+    (SELECT
+        depend_name as dependant_name,
+        dependants.dateOfBirth,
+        employees.code,
+        employees.department
+    FROM
+        (SELECT
+            depend_name,
             dateOfBirth,
-            employees.code,
-            fullname
-        FROM employees JOIN departments ON employees.department=departments.code
-        WHERE age > 18 AND dept_name='research and development') employee18
-    JOIN supervise ON employee18.code = supervise.supervised)
-    JOIN employees ON employees.code = supervise.supervisor;
+            employee,
+            TRUNC((SYSDATE - dateOfBirth)/ 365.25) AS age
+        FROM
+            dependants) dependants JOIN employees ON employee = employees.code
+    WHERE age > 18) emp_depd
+    JOIN departments
+        ON departments.code = department
+WHERE dept_name = 'research and development';
 
 /*
 Q14. Cho biết số lượng người phụ thuộc theo giới tính.
 Thông tin yêu cầu: giới tính, số lượng người phụ thuộc
 */
 
-SELECT e_supervised.gender, COUNT(e_supervised.gender) AS total
-FROM
-    ((supervise
-    JOIN employee AS e_supervisor
-        ON supervise.supervisor=e_supervisor.code)
-    JOIN employee AS e_supervised
-        ON supervise.supervised=e_supervised.code)
-GROUP BY (e_supervised.gender);
+SELECT gender, COUNT(gender) AS gender_count
+FROM dependants
+GROUP BY gender;
 
 /*
 Q15. Cho biết số lượng người phụ thuộc theo mối liên hệ với nhân viên.
 Thông tin yêu cầu: mối liên hệ, số lượng người phụ thuộc
 */
-SELECT relation, COUNT(relation) AS total
-FROM supervise
-GROUP BY relation;
+SELECT relationship, COUNT(relationship) AS total
+FROM dependants
+GROUP BY relationship;
 
 /*
 Q16.Cho biết số lượng người phụ thuộc theo mỗi phòng ban.
