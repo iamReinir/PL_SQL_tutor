@@ -327,29 +327,30 @@ FROM
 /*
 Q21.Cho biết nhân viên nào có số giờ tham gia dự án là ít nhất.
 Thông tin yêu cầu: mã nhân viên, tên nhân viên, tổng số giờ tham gia dự án
+CHECKED
 */
-
-
-
-SELECT SUM(total_hour) as total_hours, employees.code, employees.fullname, department.dept_name
+SELECT emp.code, fullname, total_hours FROM
+(SELECT employees.code as code, SUM(NVL(total_hour,0)) as total_hours
 FROM
-    ((projectJoin JOIN employees ON projectJoin.employee=employees.code)
-    JOIN departments ON employees.department=department.code)
-GROUP BY employees.code
+    ((projectJoin RIGHT JOIN employees ON projectJoin.employee=employees.code)
+    JOIN departments ON employees.department=departments.code)
+GROUP BY employees.code) emp JOIN employees ON emp.code=employees.code 
 ORDER BY total_hours ASC
 FETCH FIRST 1 ROW ONLY;
 
 /*
 Q22.Cho biết nhân viên nào có số giờ tham gia dự án là nhiều nhất.
 Thông tin yêu cầu: mã nhân viên, tên nhân viên, tổng số giờ tham gia dự án
+CHECKED
 */
 
 
-SELECT SUM(total_hour) as total_hours, employees.code, employees.fullname, department.dept_name
+SELECT emp.code, fullname, total_hours FROM
+(SELECT employees.code as code, SUM(NVL(total_hour,0)) as total_hours
 FROM
-    ((projectJoin JOIN employees ON projectJoin.employee=employees.code)
-    JOIN departments ON employees.department=department.code)
-GROUP BY employees.code
+    ((projectJoin RIGHT JOIN employees ON projectJoin.employee=employees.code)
+    JOIN departments ON employees.department=departments.code)
+GROUP BY employees.code) emp JOIN employees ON emp.code=employees.code 
 ORDER BY total_hours DESC
 FETCH FIRST 1 ROW ONLY;
 
@@ -584,43 +585,49 @@ FETCH FIRST 1 ROW ONLY;
 /*
 Q39.Cho biết nhân viên nào có ít người phụ thuộc nhất.
 Thông tin yêu cầu: mã số, họ tên nhân viên, số lượng người phụ thuộc
+CHECKED
 */
 
-SELECT supervisor_total.supervisor, fullname, supervised_count
+SELECT dep.code, fullname, dependants_count
 FROM
-    ((SELECT supervisor, COUNT(supervised) AS supervised_count
-    FROM supervise
-    GROUP BY supervisor) supervisor_total
-    JOIN employees ON supervisor=employees.code)
-ORDER BY supervised_count ASC
+(SELECT COUNT(dependants.id) as dependants_count, employees.code
+FROM employees LEFT JOIN dependants ON employee=employees.code
+GROUP BY employees.code) dep JOIN employees ON dep.code = employees.code
+ORDER BY dependants_count ASC
 FETCH FIRST 1 ROW ONLY;
 
 /*
 Q40.Cho biết nhân viên nào không có người phụ thuộc.
 Thông tin yêu cầu: mã số nhân viên, họ tên nhân viên, tên phòng ban của nhân viên
+CHECKED
 */
-SELECT employees.code, employees.fullname, dept_name
+SELECT dep.code, fullname, dependants_count
 FROM
-    (((SELECT employess.code FROM employees
-    MINUS
-    SELECT UNIQUE supervisor AS code FROM supervise) not_supervise
-    JOIN employees ON employees.code = not_supervise.code)
-    JOIN departments ON employees.department=department.code);
+(SELECT COUNT(dependants.id) as dependants_count, employees.code
+FROM employees LEFT JOIN dependants ON employee=employees.code
+GROUP BY employees.code) dep JOIN employees ON dep.code = employees.code
+WHERE dependants_count=0;
+
 
 /*
 Q41. Cho biết phòng ban nào không có người phụ thuộc.
 Thông tin yêu cầu: mã số phòng ban, tên phòng ban
+CHECKED
 */
-SELECT code, dept_name
+
+SELECT dept_code as code, dept_name
 FROM
-    (SELECT employees.department AS code
-    FROM (supervise JOIN employees ON employees.code = supervised)
-    MINUS
-    SELECT code FROM departments) dept
-    JOIN departments ON dept.code = departments;
+(SELECT departments.code as dept_code, 
+count(dependants.id) as dependants_count
+FROM dependants 
+    JOIN employees ON employees.code = dependants.employee
+    RIGHT JOIN departments ON employees.department=departments.code
+GROUP BY departments.code) dep JOIN departments 
+	ON departments.code = dept_code
+WHERE dependants_count = 0;
 
 /*
-Q42.	Cho biết những nhân viên nào chưa hề tham gia vào bất kỳ dự án nào.
+Q42. Cho biết những nhân viên nào chưa hề tham gia vào bất kỳ dự án nào.
 Thông tin yêu cầu: mã số, tên nhân viên, tên phòng ban của nhân viên
 CHECKED
 */
