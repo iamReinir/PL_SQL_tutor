@@ -3,6 +3,8 @@ INSERT INTO departments (code, dept_name) VALUES ('D002','finance');
 INSERT INTO departments (code, dept_name) VALUES ('D003','research and development');
 INSERT INTO departments (code, dept_name) VALUES ('D004','marketing');
 INSERT INTO departments (code, dept_name) VALUES ('D005','production');
+INSERT INTO departments (code, dept_name) VALUES ('D006','Empty');
+
 
 INSERT INTO
 employees (code, fullname, gender, dateOfBirth, department, managerOf)
@@ -70,6 +72,8 @@ INSERT INTO projects(code, proj_name, proj_location, managingDept)
 VALUES ('P005', 'Geothermal Power Plant', 'Hawaii', 'D005');
 INSERT INTO projects(code, proj_name, proj_location, managingDept)
 VALUES ('P006', 'Biomass Power Plant', 'Oregon', 'D003');
+INSERT INTO projects(code, proj_name, proj_location, managingDept)
+VALUES ('P007', 'Steam power plant', 'Oregon', 'D001');
 
 INSERT INTO projectJoin(employee, project, total_hour, stillInProject)
 VALUES ('E001', 'P001', 40, 1);
@@ -77,3 +81,7 @@ INSERT INTO projectJoin(employee, project, total_hour, stillInProject)
 VALUES ('E002', 'P002', 30, 1);
 INSERT INTO projectJoin(employee, project, total_hour, stillInProject)
 VALUES ('E003', 'P003', 20, 0);
+INSERT INTO projectJoin(employee, project, total_hour, stillInProject)
+VALUES ('E002', 'P001', 15, 0);
+INSERT INTO projectJoin(employee, project, total_hour, stillInProject)
+VALUES ('E001', 'P003', 30, 1);
