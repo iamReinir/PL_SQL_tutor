@@ -460,6 +460,7 @@ FETCH FIRST 1 ROW ONLY;
 /*
 Q30.Cho biết dự án nào có tổng số giờ làm là ít nhất.
 Thông tin yêu cầu: mã dự án, tên dự án, tổng số giờ làm
+CHECKED
 */
 SELECT proj.code, proj_name, total_hour
 FROM
