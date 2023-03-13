@@ -645,77 +645,67 @@ WHERE count_code=0;
 /*
 Q43.	Cho biết phòng ban không có nhân viên nào tham gia (bất kỳ) dự án.
 Thông tin yêu cầu: mã số phòng ban, tên phòng ban.
+CHECKED
 */
-SELECT UNIQUE departments.code, departments.dept_name
-FROM
-    (((SELECT 
-	e.code as employee, 
-    	COUNT(project) AS count_code 	
-    FROM projectJoin RIGHT JOIN (employees) e ON employee=e.code
-    GROUP BY e.code) proj_count
-    JOIN employees ON employees.code = proj_count.employee)
-    JOIN departments ON employees.department=departments.code)
-WHERE count_code=0;
-CODE                 DEPARTMENT           COUNT_CODE
--------------------- -------------------- ----------
-E005                 D005                          0
-E004                 D004                          0
-E002                 D002                          2
-E007                 D001                          0
-E001                 D001                          2
-E003                 D003                          1
-E008                 D003                          0
-E006                 D002                          0
+SELECT departments.code, dept_name FROM
+((SELECT code FROM departments)
+MINUS
+(SELECT UNIQUE department FROM
+    projectJoin JOIN employees ON employee=employees.code
+    JOIN departments ON department=departments.code)) nojoin
+JOIN departments ON nojoin.code=departments.code;
 
 /*
 Q44.Cho biết phòng ban không có nhân viên nào tham gia vào dự án có tên là ProjectA.
 Thông tin yêu cầu: mã số phòng ban, tên phòng ban
+CHECKED
 */
-SELECT UNIQUE departments.code, departments.dept_name
-FROM
-    (((SELECT 
-	e.code as employee, 
-    	COUNT(project) AS count_code 	
-    FROM (projectJoin JOIN projects ON project=code AND proj_name != 'Hydroelelectric Dam')
-    RIGHT JOIN (employees) e ON employee=e.code
-    GROUP BY e.code) proj_count
-    JOIN employees ON employees.code = proj_count.employee)
-    JOIN departments ON employees.department=departments.code)
-WHERE count_code=0;
-
+SELECT departments.code, dept_name FROM
+((SELECT code FROM departments)
+MINUS
+(SELECT UNIQUE department FROM
+    projectJoin JOIN employees ON employee=employees.code
+    JOIN projects ON project = projects.code AND proj_name='Hydroelectric Dam'
+    JOIN departments ON department=departments.code)) nojoin
+JOIN departments ON nojoin.code=departments.code;
 /*
 45.	Cho biết số lượng dự án được quản lý theo mỗi phòng ban.
 Thông tin yêu cầu: mã phòng ban, tên phòng ban, số lượng dự án
+CHECKED
 */
 
 SELECT departments.code, dept_name, projects_count
 FROM
-    ((SELECT managingDept, COUNT(managingDept) AS projects_count
-    FROM projects
-    GROUP BY managingDept) JOIN departments ON managingDept=departments.code);
+    ((SELECT departments.code, COUNT(managingDept) AS projects_count
+    FROM projects RIGHT JOIN departments ON managingDept=departments.code
+    GROUP BY departments.code) dep
+RIGHT JOIN departments ON dep.code=departments.code);
 /*
 46.	Cho biết phòng ban nào quản lý it dự án nhất.
 Thông tin yêu cầu: mã phòng ban, tên phòng ban, số lượng dự án
+CHECKED
 */
-
 SELECT departments.code, dept_name, projects_count
 FROM
-    ((SELECT managingDept, COUNT(managingDept) AS projects_count
-    FROM projects
-    GROUP BY managingDept) JOIN departments ON managingDept=departments.code);
+    ((SELECT departments.code, COUNT(managingDept) AS projects_count
+    FROM projects RIGHT JOIN departments ON managingDept=departments.code
+    GROUP BY departments.code) dep
+RIGHT JOIN departments ON dep.code=departments.code)
 ORDER BY projects_count ASC
 FETCH FIRST 1 ROW ONLY;
 
 /*
 Q47.	Cho biết phòng ban nào quản lý nhiều dự án nhất.
 Thông tin yêu cầu: mã phòng ban, tên phòng ban, số lượng dự án
+CHECKED
 */
 
 SELECT departments.code, dept_name, projects_count
 FROM
-    ((SELECT managingDept, COUNT(managingDept) AS projects_count
-    FROM projects
-    GROUP BY managingDept) JOIN departments ON managingDept=departments.code)
+    ((SELECT departments.code, COUNT(managingDept) AS projects_count
+    FROM projects RIGHT JOIN departments ON managingDept=departments.code
+    GROUP BY departments.code) dep
+RIGHT JOIN departments ON dep.code=departments.code)
 ORDER BY projects_count DESC
 FETCH FIRST 1 ROW ONLY;
 
