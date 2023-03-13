@@ -707,10 +707,23 @@ ORDER BY projects_count DESC
 FETCH FIRST 1 ROW ONLY;
 
 /*
-Q48.	Cho biết những phòng ban nào có nhiểu hơn 5 nhân viên đang quản lý dự án gì.
+Q48.Cho biết những phòng ban nào có nhiểu hơn 5 nhân viên đang quản lý dự án gì.
 Thông tin yêu cầu: mã phòng ban, tên phòng ban, số lượng nhân viên của phòng ban,
 tên dự án quản lý
 */
+SELECT
+    dept_code as department,
+    dept_name as department_name,
+    emp_count as employee_count,
+    proj_name as project_name
+FROM
+    (SELECT * FROM
+        (SELECT departments.code as dept_code, COUNT(employees.code) as emp_count
+        FROM departments LEFT JOIN employees ON department=departments.code
+        GROUP BY departments.code)
+    WHERE emp_count > 5
+    JOIN projects ON dept_code=managingDept);
+
 
 SELECT departments.code, dept_name, emp_count, proj_name
 (((SELECT code, emp_count
@@ -759,6 +772,13 @@ mà các nhân viên này có nhiều hơn 3 người phụ thuộc.
 Thông tin yêu cầu: mã nhân viên,họ tên nhân viên, số lượng người phụ thuộc, tổng số giờ làm
 */
 
+
+
+/*
+Q52.Cho biết tổng số giờ làm việc của các nhân viên hiện đang dưới quyền giám sát
+(bị quản lý bởi) của nhân viên Mai Duy An. Thông tin yêu cầu: mã nhân viên,
+họ tên nhân viên, tổng số giờ làm
+*/
 
 
 
