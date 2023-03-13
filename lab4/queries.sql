@@ -321,7 +321,7 @@ FROM
     (projectJoin
     JOIN employees ON employee = employees.code
     JOIN departments ON department = departments.code)
-    GROUP BY department) dept 
+    GROUP BY department) dept
     JOIN departments ON department = departments.code;
 
 /*
@@ -329,6 +329,8 @@ Q21.Cho biết nhân viên nào có số giờ tham gia dự án là ít nhất.
 Thông tin yêu cầu: mã nhân viên, tên nhân viên, tổng số giờ tham gia dự án
 */
 
+SELECT SUM(total_hour) as total_hour, employees
+    FROM projectJoin JOIN employees ON employee=employees.code
 
 
 SELECT SUM(total_hour) as total_hours, employees.code, employees.fullname, department.dept_name
@@ -362,10 +364,10 @@ CHECKED
 
 SELECT employees.code, employees.fullname, departments.dept_name
 FROM
-    (((SELECT 
-	employee, 
-    	COUNT(employee) AS count_code 	
-    FROM projectJoin 
+    (((SELECT
+	employee,
+    	COUNT(employee) AS count_code
+    FROM projectJoin
     GROUP BY employee) proj_count
     JOIN employees ON employees.code = proj_count.employee)
     JOIN departments ON employees.department=departments.code)
@@ -379,10 +381,10 @@ CHECKED
 
 SELECT employees.code, employees.fullname, departments.dept_name
 FROM
-    (((SELECT 
-	employee, 
-    	COUNT(employee) AS count_code 	
-    FROM projectJoin 
+    (((SELECT
+	employee,
+    	COUNT(employee) AS count_code
+    FROM projectJoin
     GROUP BY employee) proj_count
     JOIN employees ON employees.code = proj_count.employee)
     JOIN departments ON employees.department=departments.code)
@@ -395,10 +397,10 @@ CHECKED
 
 SELECT employees.code, employees.fullname, departments.dept_name
 FROM
-    (((SELECT 
-	employee, 
-    	COUNT(employee) AS count_code 	
-    FROM projectJoin 
+    (((SELECT
+	employee,
+    	COUNT(employee) AS count_code
+    FROM projectJoin
     GROUP BY employee) proj_count
     JOIN employees ON employees.code = proj_count.employee)
     JOIN departments ON employees.department=departments.code)
@@ -544,8 +546,8 @@ CHECKED
 */
 SELECT *
 FROM
-    (SELECT 
-	proj_location as project_location, 
+    (SELECT
+	proj_location as project_location,
      	COUNT(departments.code) as dept_count
     FROM projects RIGHT JOIN departments ON departments.code = managingDept
     GROUP BY proj_location) dept_location
@@ -559,8 +561,8 @@ CHECKED
 */
 SELECT *
 FROM
-    (SELECT 
-	proj_location as project_location, 
+    (SELECT
+	proj_location as project_location,
      	COUNT(departments.code) as dept_count
     FROM projects RIGHT JOIN departments ON departments.code = managingDept
     GROUP BY proj_location) dept_location
@@ -627,9 +629,9 @@ CHECKED
 
 SELECT employees.code, employees.fullname, departments.dept_name
 FROM
-    (((SELECT 
-	e.code as employee, 
-    	COUNT(project) AS count_code 	
+    (((SELECT
+	e.code as employee,
+    	COUNT(project) AS count_code
     FROM projectJoin RIGHT JOIN (employees) e ON employee=e.code
     GROUP BY e.code) proj_count
     JOIN employees ON employees.code = proj_count.employee)
@@ -641,9 +643,9 @@ Thông tin yêu cầu: mã số phòng ban, tên phòng ban.
 */
 SELECT UNIQUE departments.code, departments.dept_name
 FROM
-    (((SELECT 
-	e.code as employee, 
-    	COUNT(project) AS count_code 	
+    (((SELECT
+	e.code as employee,
+    	COUNT(project) AS count_code
     FROM projectJoin RIGHT JOIN (employees) e ON employee=e.code
     GROUP BY e.code) proj_count
     JOIN employees ON employees.code = proj_count.employee)
@@ -666,9 +668,9 @@ Thông tin yêu cầu: mã số phòng ban, tên phòng ban
 */
 SELECT UNIQUE departments.code, departments.dept_name
 FROM
-    (((SELECT 
-	e.code as employee, 
-    	COUNT(project) AS count_code 	
+    (((SELECT
+	e.code as employee,
+    	COUNT(project) AS count_code
     FROM (projectJoin JOIN projects ON project=code AND proj_name != 'Hydroelelectric Dam')
     RIGHT JOIN (employees) e ON employee=e.code
     GROUP BY e.code) proj_count
