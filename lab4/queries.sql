@@ -327,13 +327,10 @@ FROM
 /*
 Q21.Cho biết nhân viên nào có số giờ tham gia dự án là ít nhất.
 Thông tin yêu cầu: mã nhân viên, tên nhân viên, tổng số giờ tham gia dự án
+CHECKED
 */
-
-SELECT SUM(total_hour) as total_hour, employees
-    FROM projectJoin JOIN employees ON employee=employees.code
-
-
-SELECT SUM(total_hour) as total_hours, employees.code, employees.fullname, department.dept_name
+SELECT emp.code, fullname, total_hours FROM
+(SELECT employees.code as code, SUM(NVL(total_hour,0)) as total_hours
 FROM
     ((projectJoin JOIN employees ON projectJoin.employee=employees.code)
     JOIN departments ON employees.department=department.code)
@@ -344,10 +341,12 @@ FETCH FIRST 1 ROW ONLY;
 /*
 Q22.Cho biết nhân viên nào có số giờ tham gia dự án là nhiều nhất.
 Thông tin yêu cầu: mã nhân viên, tên nhân viên, tổng số giờ tham gia dự án
+CHECKED
 */
 
 
-SELECT SUM(total_hour) as total_hours, employees.code, employees.fullname, department.dept_name
+SELECT emp.code, fullname, total_hours FROM
+(SELECT employees.code as code, SUM(NVL(total_hour,0)) as total_hours
 FROM
     ((projectJoin JOIN employees ON projectJoin.employee=employees.code)
     JOIN departments ON employees.department=department.code)
@@ -586,34 +585,37 @@ FETCH FIRST 1 ROW ONLY;
 /*
 Q39.Cho biết nhân viên nào có ít người phụ thuộc nhất.
 Thông tin yêu cầu: mã số, họ tên nhân viên, số lượng người phụ thuộc
+CHECKED
 */
 
-SELECT supervisor_total.supervisor, fullname, supervised_count
+SELECT dep.code, fullname, dependants_count
 FROM
-    ((SELECT supervisor, COUNT(supervised) AS supervised_count
-    FROM supervise
-    GROUP BY supervisor) supervisor_total
-    JOIN employees ON supervisor=employees.code)
-ORDER BY supervised_count ASC
+(SELECT COUNT(dependants.id) as dependants_count, employees.code
+FROM employees LEFT JOIN dependants ON employee=employees.code
+GROUP BY employees.code) dep JOIN employees ON dep.code = employees.code
+ORDER BY dependants_count ASC
 FETCH FIRST 1 ROW ONLY;
 
 /*
 Q40.Cho biết nhân viên nào không có người phụ thuộc.
 Thông tin yêu cầu: mã số nhân viên, họ tên nhân viên, tên phòng ban của nhân viên
+CHECKED
 */
-SELECT employees.code, employees.fullname, dept_name
+SELECT dep.code, fullname, dependants_count
 FROM
-    (((SELECT employess.code FROM employees
-    MINUS
-    SELECT UNIQUE supervisor AS code FROM supervise) not_supervise
-    JOIN employees ON employees.code = not_supervise.code)
-    JOIN departments ON employees.department=department.code);
+(SELECT COUNT(dependants.id) as dependants_count, employees.code
+FROM employees LEFT JOIN dependants ON employee=employees.code
+GROUP BY employees.code) dep JOIN employees ON dep.code = employees.code
+WHERE dependants_count=0;
+
 
 /*
 Q41. Cho biết phòng ban nào không có người phụ thuộc.
 Thông tin yêu cầu: mã số phòng ban, tên phòng ban
+CHECKED
 */
-SELECT code, dept_name
+
+SELECT dept_code as code, dept_name
 FROM
     (SELECT employees.department AS code
     FROM (supervise JOIN employees ON employees.code = supervised)
@@ -622,7 +624,7 @@ FROM
     JOIN departments ON dept.code = departments;
 
 /*
-Q42.	Cho biết những nhân viên nào chưa hề tham gia vào bất kỳ dự án nào.
+Q42. Cho biết những nhân viên nào chưa hề tham gia vào bất kỳ dự án nào.
 Thông tin yêu cầu: mã số, tên nhân viên, tên phòng ban của nhân viên
 CHECKED
 */
@@ -640,77 +642,67 @@ WHERE count_code=0;
 /*
 Q43.	Cho biết phòng ban không có nhân viên nào tham gia (bất kỳ) dự án.
 Thông tin yêu cầu: mã số phòng ban, tên phòng ban.
+CHECKED
 */
-SELECT UNIQUE departments.code, departments.dept_name
-FROM
-    (((SELECT
-	e.code as employee,
-    	COUNT(project) AS count_code
-    FROM projectJoin RIGHT JOIN (employees) e ON employee=e.code
-    GROUP BY e.code) proj_count
-    JOIN employees ON employees.code = proj_count.employee)
-    JOIN departments ON employees.department=departments.code)
-WHERE count_code=0;
-CODE                 DEPARTMENT           COUNT_CODE
--------------------- -------------------- ----------
-E005                 D005                          0
-E004                 D004                          0
-E002                 D002                          2
-E007                 D001                          0
-E001                 D001                          2
-E003                 D003                          1
-E008                 D003                          0
-E006                 D002                          0
+SELECT departments.code, dept_name FROM
+((SELECT code FROM departments)
+MINUS
+(SELECT UNIQUE department FROM
+    projectJoin JOIN employees ON employee=employees.code
+    JOIN departments ON department=departments.code)) nojoin
+JOIN departments ON nojoin.code=departments.code;
 
 /*
 Q44.Cho biết phòng ban không có nhân viên nào tham gia vào dự án có tên là ProjectA.
 Thông tin yêu cầu: mã số phòng ban, tên phòng ban
+CHECKED
 */
-SELECT UNIQUE departments.code, departments.dept_name
-FROM
-    (((SELECT
-	e.code as employee,
-    	COUNT(project) AS count_code
-    FROM (projectJoin JOIN projects ON project=code AND proj_name != 'Hydroelelectric Dam')
-    RIGHT JOIN (employees) e ON employee=e.code
-    GROUP BY e.code) proj_count
-    JOIN employees ON employees.code = proj_count.employee)
-    JOIN departments ON employees.department=departments.code)
-WHERE count_code=0;
-
+SELECT departments.code, dept_name FROM
+((SELECT code FROM departments)
+MINUS
+(SELECT UNIQUE department FROM
+    projectJoin JOIN employees ON employee=employees.code
+    JOIN projects ON project = projects.code AND proj_name='Hydroelectric Dam'
+    JOIN departments ON department=departments.code)) nojoin
+JOIN departments ON nojoin.code=departments.code;
 /*
 45.	Cho biết số lượng dự án được quản lý theo mỗi phòng ban.
 Thông tin yêu cầu: mã phòng ban, tên phòng ban, số lượng dự án
+CHECKED
 */
 
 SELECT departments.code, dept_name, projects_count
 FROM
-    ((SELECT managingDept, COUNT(managingDept) AS projects_count
-    FROM projects
-    GROUP BY managingDept) JOIN departments ON managingDept=departments.code);
+    ((SELECT departments.code, COUNT(managingDept) AS projects_count
+    FROM projects RIGHT JOIN departments ON managingDept=departments.code
+    GROUP BY departments.code) dep
+RIGHT JOIN departments ON dep.code=departments.code);
 /*
 46.	Cho biết phòng ban nào quản lý it dự án nhất.
 Thông tin yêu cầu: mã phòng ban, tên phòng ban, số lượng dự án
+CHECKED
 */
-
 SELECT departments.code, dept_name, projects_count
 FROM
-    ((SELECT managingDept, COUNT(managingDept) AS projects_count
-    FROM projects
-    GROUP BY managingDept) JOIN departments ON managingDept=departments.code);
+    ((SELECT departments.code, COUNT(managingDept) AS projects_count
+    FROM projects RIGHT JOIN departments ON managingDept=departments.code
+    GROUP BY departments.code) dep
+RIGHT JOIN departments ON dep.code=departments.code)
 ORDER BY projects_count ASC
 FETCH FIRST 1 ROW ONLY;
 
 /*
 Q47.	Cho biết phòng ban nào quản lý nhiều dự án nhất.
 Thông tin yêu cầu: mã phòng ban, tên phòng ban, số lượng dự án
+CHECKED
 */
 
 SELECT departments.code, dept_name, projects_count
 FROM
-    ((SELECT managingDept, COUNT(managingDept) AS projects_count
-    FROM projects
-    GROUP BY managingDept) JOIN departments ON managingDept=departments.code)
+    ((SELECT departments.code, COUNT(managingDept) AS projects_count
+    FROM projects RIGHT JOIN departments ON managingDept=departments.code
+    GROUP BY departments.code) dep
+RIGHT JOIN departments ON dep.code=departments.code)
 ORDER BY projects_count DESC
 FETCH FIRST 1 ROW ONLY;
 
