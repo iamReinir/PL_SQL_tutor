@@ -573,13 +573,12 @@ Q38.Cho biết nhân viên nào có nhiều người phụ thuộc nhất.
 Thông tin yêu cầu: mã số, họ tên nhân viên, số lượng người phụ thuộc
 */
 
-SELECT supervisor_total.supervisor, fullname, supervised_count
+SELECT dep.code, fullname, dependants_count
 FROM
-    ((SELECT supervisor, COUNT(supervised) AS supervised_count
-    FROM supervise
-    GROUP BY supervisor) supervisor_total
-    JOIN employees ON supervisor=employees.code)
-ORDER BY supervised_count DESC
+(SELECT COUNT(dependants.id) as dependants_count, employees.code
+FROM employees LEFT JOIN dependants ON employee=employees.code
+GROUP BY employees.code) dep JOIN employees ON dep.code = employees.code
+ORDER BY dependants_count DESC
 FETCH FIRST 1 ROW ONLY;
 
 /*
@@ -710,6 +709,7 @@ FETCH FIRST 1 ROW ONLY;
 Q48.Cho biết những phòng ban nào có nhiểu hơn 5 nhân viên đang quản lý dự án gì.
 Thông tin yêu cầu: mã phòng ban, tên phòng ban, số lượng nhân viên của phòng ban,
 tên dự án quản lý
+CHECKED
 */
 SELECT
     dept_code as department,
@@ -717,28 +717,18 @@ SELECT
     emp_count as employee_count,
     proj_name as project_name
 FROM
-    (SELECT * FROM
+    ((SELECT * FROM
         (SELECT departments.code as dept_code, COUNT(employees.code) as emp_count
         FROM departments LEFT JOIN employees ON department=departments.code
         GROUP BY departments.code)
-    WHERE emp_count > 5
-    JOIN projects ON dept_code=managingDept);
-
-
-SELECT departments.code, dept_name, emp_count, proj_name
-(((SELECT code, emp_count
-FROM
-    (SELECT departments.code, COUNT(employees.code) AS emp_count
-    FROM
-        (employees JOIN departments ON employees.department=department.code)
-    GROUP BY departments.code)
-WHERE emp_count > 5) moreThan5
-JOIN projects ON projects.managingDept = code)
-JOIN departments ON moreThan5.code = departments.code);
+    WHERE emp_count > 1)
+    JOIN projects ON dept_code=managingDept
+    JOIN departments ON dept_code=departments.code);
 
 /*
 Q49.Cho biết những nhân viên thuộc phòng có tên là Phòng nghiên cứu,
 và không có người phụ thuộc. Thông tin yêu cầu: mã nhân viên,họ tên nhân viên
+CHECKED
 */
 SELECT employees.code, fullname
 FROM
@@ -754,31 +744,59 @@ FROM
 Q50. biết tổng số giờ làm của các nhân viên,
 mà các nhân viên này không có người phụ thuộc.
 Thông tin yêu cầu: mã nhân viên,họ tên nhân viên, tổng số giờ làm
+CHECKED
 */
-
-SELECT SUM(total_hour) as total_hour, employees.code, employees.fullname
+SELECT noDep.code, fullname, total_hour
 FROM
-    ((projectJoin JOIN employees ON projectJoin.employee=employees.code)
-    JOIN ((SELECT supervisor AS code FROM supervise
+    (SELECT code, SUM(NVL(total_hour,0)) as total_hour
+    FROM
+        (SELECT code FROM employees
         MINUS
-        SELECT code FROM employees) not_supervise
-        JOIN employees on employees.code = not_supervise.code) not_supervising
-    ON not_supervising.code = employees.code)
-GROUP BY employees.code;
+        SELECT employee AS code FROM dependants)
+        LEFT JOIN projectJoin ON employee = code
+    GROUP BY code) noDep
+    JOIN employees ON noDep.code=employees.code;
+
 
 /*
 Q51.Cho biết tổng số giờ làm của các nhân viên,
 mà các nhân viên này có nhiều hơn 3 người phụ thuộc.
 Thông tin yêu cầu: mã nhân viên,họ tên nhân viên, số lượng người phụ thuộc, tổng số giờ làm
+CHECKED
 */
-
+SELECT e1.emp_code as employee_code, total_hour, dep_count AS dependants_count
+FROM
+    (SELECT emp_code, SUM(total_hour) as total_hour
+    FROM
+        (SELECT *
+        FROM
+            (SELECT employee AS emp_code, COUNT(id) AS dep_count
+            FROM
+                dependants
+            GROUP BY employee)
+        WHERE dep_count>3)
+        JOIN projectJoin ON employee=emp_code
+    GROUP BY emp_code) e1
+        JOIN (SELECT employee AS emp_code, COUNT(id) AS dep_count
+                FROM
+                    dependants
+                GROUP BY employee) e2 ON e1.emp_code = e2.emp_code;
 
 
 /*
 Q52.Cho biết tổng số giờ làm việc của các nhân viên hiện đang dưới quyền giám sát
 (bị quản lý bởi) của nhân viên Mai Duy An. Thông tin yêu cầu: mã nhân viên,
 họ tên nhân viên, tổng số giờ làm
+CHECKED
 */
 
-
+SELECT employees.code, fullname, total_hour
+FROM
+((select code from employees where fullname='mr jame') JOIN supervise ON code = supervisor)
+JOIN
+employees ON supervised = employees.code
+JOIN
+(select employees.code as emp_code, SUM(NVL(total_hour,0)) as total_hour
+FROM (employees LEFT JOIN projectJoin ON employee=code)
+GROUP BY employees.code) ON emp_code = employees.code;
 
