@@ -1,5 +1,3 @@
-CREATE DATABASE ABCCompany;
-
 CREATE TABLE KHACHHANG (
     MaKH varchar2(5) PRIMARY KEY,
     TenKH varchar2(30) NOT NULL,
@@ -17,7 +15,7 @@ CREATE TABLE VATTU (
 );
 
 CREATE TABLE HOADON (
-    MaHD varchar2(10) PRIMARY,
+    MaHD varchar2(10) PRIMARY KEY,
     Ngay datetime CHECK(Ngay < getdate()),
     MaKH varchar2(5),
     TongTG int,
@@ -129,7 +127,8 @@ VALUES
         'TAN BINH',
         8457897,
         null
-    )
+    );
+
 INSERT INTO
     HOADON(MaHD, Ngay, MaKH)
 VALUES
