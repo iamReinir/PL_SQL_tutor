@@ -128,111 +128,111 @@ VALUES
         null
     )
 INSERT INTO
-    HOADON([MaHD], [Ngay], [MaKH])
+    HOADON(MaHD, Ngay, MaKH)
 VALUES
     ('HD001', '2000-05-12', 'KH01');
 
 INSERT INTO
-    HOADON([MaHD], [Ngay], [MaKH])
+    HOADON(MaHD, Ngay, MaKH)
 VALUES
     ('HD002', '2000-05-25', 'KH02');
 
 INSERT INTO
-    HOADON([MaHD], [Ngay], [MaKH])
+    HOADON(MaHD, Ngay, MaKH)
 VALUES
     ('HD003', '2000-05-25', 'KH01');
 
 INSERT INTO
-    HOADON([MaHD], [Ngay], [MaKH])
+    HOADON(MaHD, Ngay, MaKH)
 VALUES
     ('HD004', '2000-05-25', 'KH04');
 
 INSERT INTO
-    HOADON([MaHD], [Ngay], [MaKH])
+    HOADON(MaHD, Ngay, MaKH)
 VALUES
     ('HD005', '2000-05-26', 'KH04');
 
 INSERT INTO
-    HOADON([MaHD], [Ngay], [MaKH])
+    HOADON(MaHD, Ngay, MaKH)
 VALUES
     ('HD006', '2000-05-02', 'KH03');
 
 INSERT INTO
-    HOADON([MaHD], [Ngay], [MaKH])
+    HOADON(MaHD, Ngay, MaKH)
 VALUES
     ('HD007', '2000-06-22', 'KH04');
 
 INSERT INTO
-    HOADON([MaHD], [Ngay], [MaKH])
+    HOADON(MaHD, Ngay, MaKH)
 VALUES
     ('HD008', '2000-06-25', 'KH03');
 
 INSERT INTO
-    HOADON([MaHD], [Ngay], [MaKH])
+    HOADON(MaHD, Ngay, MaKH)
 VALUES
     ('HD009', '2000-08-15', 'KH04');
 
 INSERT INTO
-    HOADON([MaHD], [Ngay], [MaKH])
+    HOADON(MaHD, Ngay, MaKH)
 VALUES
     ('HD010', '2000-08-30', 'KH01');
 
 INSERT INTO
-    CHITIETHOADON([MaHD], [MaVT], [SL], [GiaBan])
+    CHITIETHOADON(MaHD, MaVT, SL, GiaBan)
 VALUES
     ('HD001', 'VT01', 5, 52000);
 
 INSERT INTO
-    CHITIETHOADON([MaHD], [MaVT], [SL], [GiaBan])
+    CHITIETHOADON(MaHD, MaVT, SL, GiaBan)
 VALUES
     ('HD001', 'VT05', 10, 30000);
 
 INSERT INTO
-    CHITIETHOADON([MaHD], [MaVT], [SL], [GiaBan])
+    CHITIETHOADON(MaHD, MaVT, SL, GiaBan)
 VALUES
     ('HD002', 'VT03', 10000, 150);
 
 INSERT INTO
-    CHITIETHOADON([MaHD], [MaVT], [SL], [GiaBan])
+    CHITIETHOADON(MaHD, MaVT, SL, GiaBan)
 VALUES
     ('HD003', 'VT02', 20, 55000);
 
 INSERT INTO
-    CHITIETHOADON([MaHD], [MaVT], [SL], [GiaBan])
+    CHITIETHOADON(MaHD, MaVT, SL, GiaBan)
 VALUES
     ('HD004', 'VT03', 50000, 150);
 
 INSERT INTO
-    CHITIETHOADON([MaHD], [MaVT], [SL], [GiaBan])
+    CHITIETHOADON(MaHD, MaVT, SL, GiaBan)
 VALUES
     ('HD004', 'VT04', 20000, 120);
 
 INSERT INTO
-    CHITIETHOADON([MaHD], [MaVT], [SL], [GiaBan])
+    CHITIETHOADON(MaHD, MaVT, SL, GiaBan)
 VALUES
     ('HD005', 'VT05', 10, 30000);
 
 INSERT INTO
-    CHITIETHOADON([MaHD], [MaVT], [SL], [GiaBan])
+    CHITIETHOADON(MaHD, MaVT, SL, GiaBan)
 VALUES
     ('HD006', 'VT04', 10000, 120);
 
 INSERT INTO
-    CHITIETHOADON([MaHD], [MaVT], [SL], [GiaBan])
+    CHITIETHOADON(MaHD, MaVT, SL, GiaBan)
 VALUES
     ('HD007', 'VT04', 20000, 125);
 
 INSERT INTO
-    CHITIETHOADON([MaHD], [MaVT], [SL], [GiaBan])
+    CHITIETHOADON(MaHD, MaVT, SL, GiaBan)
 VALUES
     ('HD008', 'VT01', 100, 55000);
 
 INSERT INTO
-    CHITIETHOADON([MaHD], [MaVT], [SL], [GiaBan])
+    CHITIETHOADON(MaHD, MaVT, SL, GiaBan)
 VALUES
     ('HD009', 'VT02', 25, 48000);
 
 INSERT INTO
-    CHITIETHOADON([MaHD], [MaVT], [SL], [GiaBan])
+    CHITIETHOADON(MaHD, MaVT, SL, GiaBan)
 VALUES
     ('HD010', 'VT01', 25, 57000);
