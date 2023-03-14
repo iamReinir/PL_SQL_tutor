@@ -16,7 +16,7 @@ CREATE TABLE VATTU (
 
 CREATE TABLE HOADON (
     MaHD varchar2(10) PRIMARY KEY,
-    Ngay datetime CHECK(Ngay < getdate()),
+    Ngay DATE CHECK(Ngay < SYSDATE),
     MaKH varchar2(5),
     TongTG int,
     CONSTRAINT hoadon_cua_khachhang FOREIGN KEY (MaKH) REFERENCES KHACHHANG(MaKH)
