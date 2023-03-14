@@ -1,7 +1,7 @@
 CREATE DATABASE ABCCompany;
 
 CREATE TABLE KHACHHANG (
-    MaKH varchar2(5) NOT NULL PRIMARY KEY,
+    MaKH varchar2(5) PRIMARY KEY,
     TenKH varchar2(30) NOT NULL,
     DiaChi varchar2(50),
     DT varchar2(10),
@@ -9,7 +9,7 @@ CREATE TABLE KHACHHANG (
 );
 
 CREATE TABLE VATTU (
-    MaVT varchar2(5) PRIMARY KEY NOT NULL,
+    MaVT varchar2(5) PRIMARY KEY,
     TenVT varchar2(30) NOT NULL,
     DVT varchar2(20),
     GiaMua int CHECK (GiaMua > 0),
@@ -17,19 +17,26 @@ CREATE TABLE VATTU (
 );
 
 CREATE TABLE HOADON (
-    MaHD varchar2(10) PRIMARY KEY NOT NULL,
+    MaHD varchar2(10) PRIMARY,
     Ngay datetime CHECK(Ngay < getdate()),
-    MaKH varchar2(5) FOREIGN KEY REFERENCES KHACHHANG(MaKH),
-    TongTG int
+    MaKH varchar2(5),
+    TongTG int,
+    CONSTRAINT hoadon_cua_khachhang
+        FOREIGN KEY MaKH
+        REFERENCES KHACHHANG(MaKH)
 );
 
 CREATE TABLE CHITIETHOADON (
-    MaHD varchar2(10) FOREIGN KEY REFERENCES HOADON(MaHD),
-    MaVT varchar2(5) FOREIGN KEY REFERENCES VATTU(MaVT),
+    MaHD varchar2(10) ,
+    MaVT varchar2(5) ,
     PRIMARY KEY (MaHD, MaVT),
     SL int,
     KhuyenMai int,
-    GiaBan int
+    GiaBan int,
+    CONSTRAINT CHITIETHOADON_fk1
+        FOREIGN KEY REFERENCES HOADON(MaHD),
+    CONSTRAINT CHITIETHOADON_fk2
+        FOREIGN KEY REFERENCES VATTU(MaVT)
 );
 
 INSERT INTO
