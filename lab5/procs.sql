@@ -58,3 +58,22 @@ begin
 end;
 /
 
+/*
+4.	Write procedure to add an item into Hoadon
+*/
+
+CREATE OR REPLACE
+procedure add_to_hoadon(
+	code in varchar2,
+	day in date,
+	cust_code in varchar2,
+)
+is
+begin
+  insert into HoaDon (MaHD,ngay,MaKH)
+  values (code,dat,cust_code);
+  exception
+	when dup_val_on_index then
+	DBMS_OUTPUT.PUT_LINE('Duplicated MaHD');
+end;
+
