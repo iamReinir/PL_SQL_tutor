@@ -76,6 +76,7 @@ begin
 	when dup_val_on_index then
 	DBMS_OUTPUT.PUT_LINE('Duplicated MaHD');
 end;
+/
 
 /*
 5.	Write trigger name: StudenId_ Trig1 on table Chitiethoadon,
@@ -92,4 +93,6 @@ begin
 	 set TongTG= newRow.sl * newRow.giaban;
    where condition
 end;
+
+
 
