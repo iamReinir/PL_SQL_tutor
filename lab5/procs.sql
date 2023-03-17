@@ -36,7 +36,7 @@ BEGIN
 	loop
 		result := result + rec.sl*rec.giaban;
 	end loop;
-	return total;
+	return result;
 END;
 /
 
@@ -50,6 +50,7 @@ procedure qe170172_proc1(
   cust_code in varchar2,
   address in varchar2
 )
+is
 begin
   update KHACHHANG
 	 set DiaChi=address
