@@ -88,6 +88,28 @@ REFERENCING NEW AS newRow
 begin
   update HOADON
 	 set TongTG= newRow.sl * newRow.giaban;
-   where condition
 end;
 
+create user "OPS$localhost\black"
+identified externally
+default tablespace reinir_ts
+quota unlimited on reinir_ts;
+
+create user REINIR 
+identified by OK 
+default tablespace reinir_ts
+quota unlimited on reinir_ts;
+grant connect to reinir;
+grant create session to reinir;
+
+select tablespace_name from user_tablespaces;
+select username, account_status, password from dba_users where username='REINIR';
+create tablespace reinir_ts DATAFILE 'reinir_ts.dat' SIZE 10M ONLINE;
+alter system set sec_case_sensitive_logon = false;
+
+CREATE OR REPLACE VIEW QE170172_view1 AS
+SELECT khachhang.MaKH, khachhang.tenKH
+FROM
+	khachhang JOIN hoadon ON khachhang.MaKH = hoadon.MaKH
+	JOIN chitiethoadon ON chitiethoadon.MaHD = hoadon.MaHD
+	JOIN (SELECT MaVT FROM vattu WHERE tenVT='GACH ONG') vt ON vt.MaVT = chitiethoadon.MaVT;
