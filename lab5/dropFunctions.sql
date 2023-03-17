@@ -1,0 +1,1 @@
+drop function qe170172_func1;

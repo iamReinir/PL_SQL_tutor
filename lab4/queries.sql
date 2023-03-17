@@ -247,7 +247,7 @@ FROM
                     dateOfBirth,
                     employee,
                     relationship,
-                    TRUNC((SYSDATE - dateOfBirth) / 365.25) AS age
+                    ((SYSDATE - dateOfBirth)/ 365.25) AS age
                 FROM
                     dependants
             ) dependants
