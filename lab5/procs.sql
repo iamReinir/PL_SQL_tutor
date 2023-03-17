@@ -83,29 +83,27 @@ the trigger will update the Tongtien in HoaDon
 */
 
 CREATE OR REPLACE
-TRIGGER qe170172_trig1 AFTER INSERT ON CHITIETHOADON
-REFERENCING NEW AS newRow
+TRIGGER qe170172_trig1 AFTER INSERT OR DELETE OR UPDATE ON CHITIETHOADON
+DECLARE
+	total int := 0;
 begin
-  update HOADON
-	 set TongTG= newRow.sl * newRow.giaban;
+  for invoice in (SELECT * FROM hoadon)
+  loop
+	for erow in (SELECT * FROM chitiethoadon
+		WHERE chitiethoadon.MaHD = invoice.MaHD)
+	loop
+		total := total + erow.sl * erow.giaban;
+	end loop;
+	update hoadon set TongTG=total where hoadon.MaHD = invoice.MaHD;
+	total := 0;
+  end loop;
 end;
+/
 
-create user "OPS$localhost\black"
-identified externally
-default tablespace reinir_ts
-quota unlimited on reinir_ts;
-
-create user reinir
-identified by ok
-default tablespace reinir_ts
-quota unlimited on reinir_ts;
-grant connect to reinir;
-grant create session to reinir;
-
-select tablespace_name from user_tablespaces;
-select username, account_status, password from dba_users where username='REINIR';
-create tablespace reinir_ts DATAFILE 'reinir_ts.dat' SIZE 10M ONLINE;
-alter system set sec_case_sensitive_logon = false;
+/*
+6.	Write view name: StudentID_View1
+to extract list of customers who bought ‘Gach Ong’
+*/
 
 CREATE OR REPLACE VIEW QE170172_view1 AS
 SELECT khachhang.MaKH, khachhang.tenKH
