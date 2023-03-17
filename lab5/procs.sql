@@ -77,3 +77,19 @@ begin
 	DBMS_OUTPUT.PUT_LINE('Duplicated MaHD');
 end;
 
+/*
+5.	Write trigger name: StudenId_ Trig1 on table Chitiethoadon,
+when user insert data into Chitiethoadon,
+the trigger will update the Tongtien in HoaDon
+(student should add Tongtien column into Hoadon, tongtien=sum(sl*giaban).
+*/
+
+CREATE OR REPLACE
+TRIGGER qe170172_trig1 AFTER INSERT ON CHITIETHOADON
+REFERENCING NEW AS newRow
+begin
+  update HOADON
+	 set TongTG= newRow.sl * newRow.giaban;
+   where condition
+end;
+
