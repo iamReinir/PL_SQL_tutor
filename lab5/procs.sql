@@ -95,8 +95,8 @@ identified externally
 default tablespace reinir_ts
 quota unlimited on reinir_ts;
 
-create user REINIR 
-identified by OK 
+create user reinir
+identified by ok
 default tablespace reinir_ts
 quota unlimited on reinir_ts;
 grant connect to reinir;
